@@ -1,7 +1,7 @@
 {
-  "modelPath": "/Users/ryanbaltodano/Developer/Aquinas-iOS/Aquinas-iOS/LocalModels/gemma-4-E2B-it.litertlm",
+  "modelPath": "~/Developer/Aquinas-iOS/Aquinas-iOS/LocalModels/gemma-4-E2B-it.litertlm",
   "modelSHA256": "9a6345f1a6cd39283f957977c84d31cc63b8dd56f2b8fffeb784940f63365282",
-  "outputPath": "/Users/ryanbaltodano/Developer/Aquinas_Backend/evaluation/evidence_ablation/answers.json",
+  "outputPath": "~/Developer/Aquinas_Backend/evaluation/evidence_ablation/answers.json",
   "corpusSHA256": "33b9c603276a2bf817cf721188d68e92910d7032b0f633ca1f4ae113e30f3ae4",
   "jobs": [
     {

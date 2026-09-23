@@ -2,8 +2,8 @@
 
 This is research tooling, not a production export recipe.  It implements the
 cache, telemetry, checkpoint, and fresh-process resume gates required by the
-authoritative protocol in Aquinas-QAT-DWQ-Writeup.md.  The conservative
-defaults intentionally describe the first 128-token diagnostic only.
+authoritative protocol in Aquinas-Foundations/research/Aquinas-QAT-DWQ-Writeup.md.
+The conservative defaults intentionally describe the first 128-token diagnostic only.
 """
 
 from __future__ import annotations

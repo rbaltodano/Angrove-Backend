@@ -271,7 +271,7 @@ generation), and a proper blind answer-quality comparison against the current 4-
 several prompts, not just "What is prudence?". Do not change the iOS manifest to this artifact
 until those remaining gates pass.
 
-This also means the llama.cpp migration (`Aquinas-Foundations/LLAMA-CPP-MIGRATION-SCOPING.md`)
+This also means the llama.cpp migration (`Aquinas-Foundations/research/LLAMA-CPP-MIGRATION-SCOPING.md`)
 may not be necessary — its entire premise was a LiteRT-LM GPU quality ceiling that turned out to
 be a Simulator artifact, not a real one. Re-promoting this already-existing LiteRT package after
 finishing the remaining validation gates is a much smaller change than a runtime migration.

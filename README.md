@@ -1,8 +1,12 @@
 # Aquinas Backend
 
-The local FastAPI and MLX service used by Aquinas during development. It provides model
-generation, structured response validation, semantic retrieval, Insight Tree operations, and
-conversation-scoped SQLite persistence.
+The local FastAPI and MLX service used by [Aquinas](https://github.com/rbaltodano/Aquinas-iOS)
+during development. It provides model generation, structured response validation, semantic
+retrieval, Insight Tree operations, and conversation-scoped SQLite persistence.
+
+> **Development topology only.** This Mac-hosted service supports integration, evaluation, and
+> advanced tree features while the app is being built. It is not a hosted production service; the
+> product boundary remains private, local-first, on-device operation.
 
 ## Main areas
 
@@ -25,12 +29,16 @@ the quote-notability check finishes; that best-effort check runs in the backgrou
 changes a completed tree-analysis response.
 
 Read [`CLAUDE.md`](CLAUDE.md) for the current model checkpoint, API contract, and safety rules.
-Read [`../Aquinas-Foundations/MODEL-INTEGRATION.md`](../Aquinas-Foundations/MODEL-INTEGRATION.md)
-before changing a client-facing contract or model behavior.
+Read [`MODEL-INTEGRATION.md`](https://github.com/rbaltodano/Aquinas-Foundations/blob/main/MODEL-INTEGRATION.md)
+in Aquinas Foundations before changing a client-facing contract or model behavior.
 
 ## Local setup
 
+Requires an Apple silicon Mac (MLX) and Python 3.14. Model weights are not included in this
+repository; see [`CLAUDE.md`](CLAUDE.md) for the expected checkpoint layout.
+
 ```sh
+python3 -m venv aquinas_env
 source aquinas_env/bin/activate
 pip install -r requirements.txt
 uvicorn server:app --reload
