@@ -35,6 +35,11 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      # The service loads MiniLM with local_files_only=True so it never reaches the network at
+      # runtime; prefetch it into the cache so the tests can load it the same way.
+      - name: Prefetch MiniLM embedding model
+        run: python -c "from huggingface_hub import snapshot_download; snapshot_download('sentence-transformers/all-MiniLM-L6-v2')"
+
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
 
