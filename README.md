@@ -53,3 +53,8 @@ python scripts/evaluate_prompt_quality.py --validate-only
 
 Large model weights, generated corpora, databases, and evaluation outputs are local artifacts and
 are intentionally excluded from source control.
+
+## License
+
+Copyright © 2026 Ryan Baltodano. All rights reserved. The source is public for reference and
+review; see [`LICENSE`](LICENSE) for details.
