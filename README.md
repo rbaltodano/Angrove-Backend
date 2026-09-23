@@ -1,5 +1,7 @@
 # Aquinas Backend
 
+[![Tests](https://github.com/rbaltodano/Aquinas-Backend/actions/workflows/tests.yml/badge.svg)](https://github.com/rbaltodano/Aquinas-Backend/actions/workflows/tests.yml)
+
 The local FastAPI and MLX service used by [Aquinas](https://github.com/rbaltodano/Aquinas-iOS)
 during development. It provides model generation, structured response validation, semantic
 retrieval, Insight Tree operations, and conversation-scoped SQLite persistence.
