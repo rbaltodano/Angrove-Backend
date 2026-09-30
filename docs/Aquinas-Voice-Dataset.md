@@ -24,7 +24,7 @@ attribution in the pilot was caught and removed.
 
 | Kind | Count | Purpose |
 | --- | --- | --- |
-| core | 92 | Questions answered in the voice without passages |
+| core | 93 | Questions answered in the voice without passages |
 | grounded | 43 | Answers that use only the passages supplied. The passages are formatted exactly as the app delivers them: Summa articles as "Question / Aquinas's conclusion / Aquinas's own answer" (`summa_evidence.py`), *On the Incarnation*, Augustine, Anselm, Justin, Scripture, and the Reformation confessions presented on their own terms. About a third carry an irrelevant extra passage, which the answer ignores. |
 | definition | 27 | Short definitions |
 | followup | 24 | Pronoun and item references, "say more" and "in one sentence" requests, topic changes that drop old context, valid pushback accepted, and mistaken pushback declined |
