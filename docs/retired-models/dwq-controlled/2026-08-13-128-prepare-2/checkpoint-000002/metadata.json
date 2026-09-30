@@ -1,0 +1,45 @@
+{
+  "config": {
+    "batch_size": 1,
+    "bits": 8,
+    "cache_limit_bytes": 0,
+    "checkpoint_every": 20,
+    "gradient_checkpoint": true,
+    "group_size": 64,
+    "learning_rate": 1e-08,
+    "max_seq_length": 128,
+    "max_steps": null,
+    "model_path": "models/Aquinas-Final-HF",
+    "num_samples": 512,
+    "output_path": "models/dwq_full_run_8bit",
+    "seed": 123,
+    "validation_every": 100
+  },
+  "data_position": 2,
+  "expected_next": {
+    "iteration": 3,
+    "loss": 0.0263671875,
+    "state_sha256": "56b69086f07d8ccbeeee01c13dd3391251f41430463917905a2409d4180ac8f1"
+  },
+  "initial_validation": 0.006634832511155083,
+  "iteration": 2,
+  "latest_validation": 0.006634832511155083,
+  "memory": {
+    "active_bytes": 15919100002,
+    "cache_bytes": 0,
+    "event": "checkpoint_saved",
+    "iteration": 2,
+    "peak_bytes": 18566660787,
+    "timestamp": 1786671382.54085
+  },
+  "optimizer_sha256": "0b2fc576dc07bfdfde7705381c8ac71746079c8bc05509480baf34c9586593ee",
+  "reason": "resume-test",
+  "schema_version": 1,
+  "seed": 123,
+  "skipped_updates": 0,
+  "student_sha256": "b85e961766920f0d89db315d4fede37d9da305feef13fbd6aeec6263f5f8bec3",
+  "total_parameters": 4628569344,
+  "trainable_parameters": 144919843,
+  "trainable_ratio": 0.031309856724488556,
+  "validation_fingerprint": 0.0091552734375
+}

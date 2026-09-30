@@ -1,0 +1,24 @@
+Started monitor pid=2236 log=/Users/ryanbaltodano/Developer/Aquinas_Backend/runs/dwq-controlled/2026-08-13-128-prepare-2/monitor.jsonl
+MLX limits: cache 24481313587 -> 0; wired 0 -> 19069665280
+MEMORY {"active_bytes": 8, "cache_bytes": 0, "event": "baseline", "iteration": 0, "peak_bytes": 8, "timestamp": 1786671365.891221}
+Loading model (strict=False to drop unused shared-KV weights)...
+Loading data...
+Loading Hugging Face dataset data/training_data.
+train=512 valid=32
+Quantizing student model...
+[INFO] Quantized model with 8.500 bits per weight.
+Trainable parameters: 3.131% (144.920M/4628.569M)
+MEMORY {"active_bytes": 120, "cache_bytes": 0, "event": "models_loaded", "iteration": 0, "peak_bytes": 5632, "timestamp": 1786671367.4757419}
+MEMORY {"active_bytes": 132, "cache_bytes": 0, "event": "validation_start", "iteration": 0, "peak_bytes": 5632, "timestamp": 1786671367.477131}
+MEMORY {"active_bytes": 14823212880, "cache_bytes": 0, "event": "validation_end", "iteration": 0, "peak_bytes": 15119048534, "timestamp": 1786671378.682873}
+Validation: iteration=0 loss=0.006634833
+TRAIN iteration=1 loss=0.004333496 tokens=126 elapsed=1.2s
+TRAIN iteration=2 loss=0.006622314 tokens=127 elapsed=2.3s
+MEMORY {"active_bytes": 15919100002, "cache_bytes": 0, "event": "validation_start", "iteration": 2, "peak_bytes": 18566660787, "timestamp": 1786671380.973747}
+MEMORY {"active_bytes": 16052270321, "cache_bytes": 0, "event": "validation_end", "iteration": 2, "peak_bytes": 18566660787, "timestamp": 1786671381.495195}
+MEMORY {"active_bytes": 15919100002, "cache_bytes": 0, "event": "checkpoint_saved", "iteration": 2, "peak_bytes": 18566660787, "timestamp": 1786671382.54085}
+MEMORY {"active_bytes": 15919100002, "cache_bytes": 0, "event": "checkpoint_cache_cleared", "iteration": 2, "peak_bytes": 0, "timestamp": 1786671382.5413299}
+Prepared resume test checkpoint: /Users/ryanbaltodano/Developer/Aquinas_Backend/runs/dwq-controlled/2026-08-13-128-prepare-2/checkpoint-000002
+Run status: resume-test-prepared
+Restored MLX cache limit 0 -> 24481313587
+Restored MLX wired limit 19069665280 -> 0

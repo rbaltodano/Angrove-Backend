@@ -1,0 +1,6 @@
+{
+  "base_checkpoint": "/Users/ryanbaltodano/.cache/huggingface/hub/models--google--gemma-4-e2b-it/snapshots/4742fe843cc01b9aed62122f6e0ddd13ea48b3d3",
+  "fused_checkpoint": "/Users/ryanbaltodano/Developer/Aquinas_Backend/models/Aquinas-Final",
+  "language_tensor_count": 600,
+  "mapping": "language_model.model.* -> model.language_model.*"
+}

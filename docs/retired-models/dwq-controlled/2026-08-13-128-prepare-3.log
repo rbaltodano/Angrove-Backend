@@ -1,0 +1,35 @@
+Started monitor pid=2412 log=/Users/ryanbaltodano/Developer/Aquinas_Backend/runs/dwq-controlled/2026-08-13-128-prepare-3/monitor.jsonl
+MLX limits: cache 24481313587 -> 0; wired 0 -> 19069665280
+MEMORY {"active_bytes": 8, "cache_bytes": 0, "event": "baseline", "iteration": 0, "peak_bytes": 8, "timestamp": 1786671534.12785}
+Loading model (strict=False to drop unused shared-KV weights)...
+Loading data...
+Loading Hugging Face dataset data/training_data.
+train=512 valid=32
+Quantizing student model...
+[INFO] Quantized model with 8.500 bits per weight.
+Trainable parameters: 3.131% (144.920M/4628.569M)
+MEMORY {"active_bytes": 120, "cache_bytes": 0, "event": "models_loaded", "iteration": 0, "peak_bytes": 5632, "timestamp": 1786671535.749255}
+MEMORY {"active_bytes": 132, "cache_bytes": 0, "event": "validation_start", "iteration": 0, "peak_bytes": 5632, "timestamp": 1786671535.750664}
+MEMORY {"active_bytes": 14823212880, "cache_bytes": 0, "event": "validation_end", "iteration": 0, "peak_bytes": 15119048534, "timestamp": 1786671546.124268}
+Validation: iteration=0 loss=0.006122981
+TRAIN iteration=1 loss=0.006011963 tokens=127 elapsed=1.3s
+TRAIN iteration=2 loss=0.004852295 tokens=127 elapsed=2.3s
+MEMORY {"active_bytes": 15919100002, "cache_bytes": 0, "event": "validation_start", "iteration": 2, "peak_bytes": 18566660787, "timestamp": 1786671548.432283}
+MEMORY {"active_bytes": 15985685104, "cache_bytes": 0, "event": "validation_end", "iteration": 2, "peak_bytes": 18566660787, "timestamp": 1786671548.95218}
+MEMORY {"active_bytes": 15919100002, "cache_bytes": 0, "event": "validation_start", "iteration": 2, "peak_bytes": 18566660787, "timestamp": 1786671548.952255}
+MEMORY {"active_bytes": 15985685104, "cache_bytes": 0, "event": "validation_end", "iteration": 2, "peak_bytes": 18566660787, "timestamp": 1786671549.4731112}
+Run status: failed
+Restored MLX cache limit 0 -> 24481313587
+Restored MLX wired limit 19069665280 -> 0
+Traceback (most recent call last):
+  File "/Users/ryanbaltodano/Developer/Aquinas_Backend/scripts/dwq_full_run.py", line 614, in <module>
+    main()
+    ~~~~^^
+  File "/Users/ryanbaltodano/Developer/Aquinas_Backend/scripts/dwq_full_run.py", line 552, in main
+    checkpoint, metadata = checkpoint_state("resume-test")
+                           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/Users/ryanbaltodano/Developer/Aquinas_Backend/scripts/dwq_full_run.py", line 469, in checkpoint_state
+    raise RuntimeError(
+    ...<2 lines>...
+    )
+RuntimeError: Validation is not deterministic before checkpoint: 0.0060882568359375 != 0.00543212890625

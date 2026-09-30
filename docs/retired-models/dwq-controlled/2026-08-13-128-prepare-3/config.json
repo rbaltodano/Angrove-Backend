@@ -1,0 +1,16 @@
+{
+  "batch_size": 1,
+  "bits": 8,
+  "cache_limit_bytes": 0,
+  "checkpoint_every": 20,
+  "gradient_checkpoint": true,
+  "group_size": 64,
+  "learning_rate": 1e-08,
+  "max_seq_length": 128,
+  "max_steps": null,
+  "model_path": "models/Aquinas-Final-HF",
+  "num_samples": 512,
+  "output_path": "models/dwq_full_run_8bit",
+  "seed": 123,
+  "validation_every": 100
+}

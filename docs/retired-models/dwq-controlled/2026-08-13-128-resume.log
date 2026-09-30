@@ -1,0 +1,25 @@
+Started monitor pid=2307 log=/Users/ryanbaltodano/Developer/Aquinas_Backend/runs/dwq-controlled/2026-08-13-128-resume/monitor.jsonl
+MLX limits: cache 24481313587 -> 0; wired 0 -> 19069665280
+MEMORY {"active_bytes": 8, "cache_bytes": 0, "event": "baseline", "iteration": 0, "peak_bytes": 8, "timestamp": 1786671443.937197}
+Loading model (strict=False to drop unused shared-KV weights)...
+Loading data...
+Loading Hugging Face dataset data/training_data.
+train=512 valid=32
+Quantizing student model...
+[INFO] Quantized model with 8.500 bits per weight.
+Trainable parameters: 3.131% (144.920M/4628.569M)
+MEMORY {"active_bytes": 120, "cache_bytes": 0, "event": "models_loaded", "iteration": 0, "peak_bytes": 5632, "timestamp": 1786671445.589582}
+MEMORY {"active_bytes": 1743707688, "cache_bytes": 0, "event": "validation_start", "iteration": 2, "peak_bytes": 1743707688, "timestamp": 1786671445.7761412}
+MEMORY {"active_bytes": 15985684584, "cache_bytes": 0, "event": "validation_end", "iteration": 2, "peak_bytes": 16281520238, "timestamp": 1786671448.803189}
+Run status: failed
+Restored MLX cache limit 0 -> 24481313587
+Restored MLX wired limit 19069665280 -> 0
+Traceback (most recent call last):
+  File "/Users/ryanbaltodano/Developer/Aquinas_Backend/scripts/dwq_full_run.py", line 584, in <module>
+    main()
+    ~~~~^^
+  File "/Users/ryanbaltodano/Developer/Aquinas_Backend/scripts/dwq_full_run.py", line 434, in main
+    raise RuntimeError(
+        f"Reload validation mismatch: {fingerprint} != {expected_fingerprint}"
+    )
+RuntimeError: Reload validation mismatch: 0.0080108642578125 != 0.0091552734375

@@ -1,0 +1,33 @@
+{
+  "device_info": {
+    "architecture": "applegpu_g16s",
+    "device_name": "Apple M4 Pro",
+    "max_buffer_length": 14302248960,
+    "max_recommended_working_set_size": 19069665280,
+    "memory_size": 25769803776,
+    "resource_limit": 499000
+  },
+  "files": {
+    "/Users/ryanbaltodano/Developer/Aquinas_Backend/aquinas_env/lib/python3.14/site-packages/mlx_lm/quant/dwq.py": "84d85be8bbb4fa140334e3eefc1af14c65b60b6a02f386b963577899439894d6",
+    "/Users/ryanbaltodano/Developer/Aquinas_Backend/scripts/dwq_full_run.py": "30f04fa32c865fc17ff1aec60bab7b62a104853ebfd327f732942f72f48e8176",
+    "/Users/ryanbaltodano/Developer/Aquinas_Backend/scripts/dwq_monitor.py": "28495384ca516e488a5b3de4675127a2406c73237c577df903dc8b0692950d75"
+  },
+  "git_status": [
+    " M evaluation/prompt_quality_cases.json",
+    " M scripts/export_litert_aquinas.py",
+    " M server.py",
+    " M structured_generation.py",
+    " M tests/test_prompt_assembly.py",
+    " M tests/test_server.py",
+    " M tests/test_structured_generation.py",
+    "?? runs/",
+    "?? scripts/dwq_bridge_reconstruct.py",
+    "?? scripts/dwq_full_run.py",
+    "?? scripts/dwq_monitor.py",
+    "?? scripts/dwq_smoketest.py"
+  ],
+  "mlx_lm_version": "0.31.3",
+  "mlx_version": "0.32.0",
+  "python": "3.14.6 (main, Jun 10 2026, 10:03:53) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "timestamp": 1786671239.6386502
+}

@@ -56,6 +56,11 @@ source of truth. Read [`INSIGHT-TREE.md`](../Aquinas-Foundations/INSIGHT-TREE.md
   input only: simulator Metal could not allocate its 388,956,160-byte tensor, and the base iPhone
   17 was terminated during initialization before generation. Do not promote, bundle, or fine-tune
   this package as the current replacement.
+- **Retired 2026-09-29:** the iOS app ships stock Gemma 4 E4B. The E2B fused/HF/LiteRT weights
+  and DWQ runs referenced in this file were deleted locally; their metadata and rebuild steps are in
+  [`docs/retired-models/README.md`](docs/retired-models/README.md). `models/aquinas_adapters` (the
+  fine-tune) and `data/` are kept. The E4B fine-tune plan and gaps are in
+  [`docs/E4B-FineTune-Readiness.md`](docs/E4B-FineTune-Readiness.md).
 - Broad factual reliability is not a prompt-patching task. The planned path is automated ingestion
   of approved licensed/versioned sources, MiniLM passage retrieval, evidence-bound generation,
   citations, claim validation, and explicit uncertainty or approved online lookup when retrieval
