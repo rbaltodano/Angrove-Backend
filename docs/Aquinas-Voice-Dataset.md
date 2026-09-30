@@ -61,3 +61,26 @@ should either make *scholarly* the default or rewrite *balanced* to describe thi
 3. Export with `scripts/export_litert_aquinas.py --skip-vision --quantization-recipe
    dynamic_wi4_afp32`. The stock export was 4.12 GB, so it needs the Apple-hosted asset pack.
 4. On the phone, compare against stock E4B on sealed set 2, and read the answers side by side.
+
+## Training results — 2026-09-30 (RunPod A100 80 GB, LoRA r16 on language layers)
+
+| Run | Data | Settings | Valid loss | Outcome |
+| --- | --- | --- | --- | --- |
+| v1 | examples.jsonl | 3 epochs, lr 1e-4 | 2.90 → 1.55 | Voice achieved. **Fabricated citations**: a Catechism "lost toy" analogy, "Summa I–II q.16 a.1" on selfishness, a "seven loves" list |
+| v2 | examples-v2 (locators kept only in grounded answers) | 3 epochs, lr 1e-4 | 2.88 → 1.57 | Fewer locators, but fluent confabulation: Gregory of Nyssa as "the soul is a part of God", a wrong Summa location, an invented Augustine analogy |
+| v3 | examples-v2 | 1 epoch, lr 5e-5 | 2.88 → 1.77 | Voice mostly lost; still a wrong locator and an invented Gregory metaphor |
+| stock + voice prompt | none | stock E4B | — | Plain prose with an image; no invented locators; Gregory broadly correct. Chosen for launch |
+
+The stock model without the voice prompt was accurate but verbose, and it used markdown, LaTeX,
+and "student". The voice prompt now lives in the app's scholarly personality (Aquinas-iOS
+`feature/scholarly-default-voice`, `55f2a37`). The stock model still misplaces some Summa
+locations on its own, prompt or no prompt.
+
+**Lesson:** about 200 hand-written examples in a confident, reference-rich voice teach the style
+of authority without the knowledge behind it. A later attempt needs thousands of examples whose
+content comes from the model itself or from supplied passages, plus a fabrication check before
+anything ships.
+
+Tooling fixes found on the pod: install PyTorch built for CUDA 12.8 (`torch 2.11.0+cu128`) when the
+driver reports CUDA 12.8; `apply_chat_template(..., return_dict=True)` for generation in
+transformers 5.x.
