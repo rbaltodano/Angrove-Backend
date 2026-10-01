@@ -1,4 +1,4 @@
-"""Standalone DWQ smoke test for the Aquinas Gemma 4 checkpoint.
+"""Standalone DWQ smoke test for the Angrove Gemma 4 checkpoint.
 
 Bypasses mlx_lm.quant.dwq's CLI `load()` call (hardcoded strict=True) because
 this checkpoint's KV-shared layers (config.num_kv_shared_layers=20) still

@@ -100,7 +100,7 @@ async def require_api_key(
 
 
 app = FastAPI(
-    title="Aquinas Logic API",
+    title="Angrove Logic API",
     lifespan=lifespan,
     dependencies=[Depends(require_api_key)],
 )
@@ -699,7 +699,7 @@ def define_contextual_term(request: ContextualDefinitionRequest):
     except StructuredGenerationError as error:
         raise HTTPException(
             status_code=502,
-            detail="Aquinas did not return a valid contextual definition.",
+            detail="Angrove did not return a valid contextual definition.",
         ) from error
 
 
@@ -771,7 +771,7 @@ def define_contextual_term_for_conversation(
     except StructuredGenerationError as error:
         raise HTTPException(
             status_code=502,
-            detail="Aquinas did not return a valid contextual definition.",
+            detail="Angrove did not return a valid contextual definition.",
         ) from error
 
 
@@ -825,7 +825,7 @@ def respond_to_conversation(request: ConversationResponseRequest):
     except StructuredGenerationError as error:
         raise HTTPException(
             status_code=502,
-            detail="Aquinas did not return a valid structured response.",
+            detail="Angrove did not return a valid structured response.",
         ) from error
 
 
@@ -858,7 +858,7 @@ def generate_question_of_the_day(request: DailyQuestionRequest):
     except StructuredGenerationError as error:
         raise HTTPException(
             status_code=502,
-            detail="Aquinas did not return a valid Question of the Day.",
+            detail="Angrove did not return a valid Question of the Day.",
         ) from error
 
 
@@ -1039,7 +1039,7 @@ def stream_conversation_response(request: ConversationResponseRequest):
             logger.exception("Streaming conversation response failed.")
             yield _stream_event(
                 "error",
-                detail="Aquinas did not return a valid streaming response.",
+                detail="Angrove did not return a valid streaming response.",
             )
 
     return StreamingResponse(
@@ -1070,7 +1070,7 @@ def compact_conversation(request: ConversationCompactionRequest):
     except StructuredGenerationError as error:
         raise HTTPException(
             status_code=502,
-            detail="Aquinas did not return valid compacted context.",
+            detail="Angrove did not return valid compacted context.",
         ) from error
 
 
@@ -1139,7 +1139,7 @@ def label_insight_tree_node(request: NodeSubjectRequest):
     except StructuredGenerationError as error:
         raise HTTPException(
             status_code=502,
-            detail="Aquinas did not return a valid Node subject.",
+            detail="Angrove did not return a valid Node subject.",
         ) from error
 
 
@@ -1175,7 +1175,7 @@ def blend_midpoint_concepts(request: MidpointBlendRequest):
     except StructuredGenerationError as error:
         raise HTTPException(
             status_code=502,
-            detail="Aquinas did not return a valid Midpoint Insight.",
+            detail="Angrove did not return a valid Midpoint Insight.",
         ) from error
 
 
@@ -1205,7 +1205,7 @@ def generate_make_node_children(request: MakeNodeChildrenRequest):
     except StructuredGenerationError as error:
         raise HTTPException(
             status_code=502,
-            detail="Aquinas did not return three valid Make Node Insights.",
+            detail="Angrove did not return three valid Make Node Insights.",
         ) from error
 
 
@@ -1348,7 +1348,7 @@ def analyze_response_for_tree(
         except StructuredGenerationError as error:
             raise HTTPException(
                 status_code=502,
-                detail="Aquinas did not return a valid Insight Tree update.",
+                detail="Angrove did not return a valid Insight Tree update.",
             ) from error
         except GenerationPreempted as error:
             raise HTTPException(
@@ -1377,7 +1377,7 @@ def remove_insight_from_tree(conversation_id: str, insight_id: str):
 if __name__ == "__main__":
     import uvicorn
 
-    logger.info("Starting Aquinas API Server on http://0.0.0.0:8000")
+    logger.info("Starting Angrove API Server on http://0.0.0.0:8000")
     if not os.environ.get(API_KEY_ENV_VAR):
         logger.warning(
             "%s is not set -- every endpoint on this LAN-reachable server is "

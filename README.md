@@ -1,8 +1,21 @@
-# Aquinas Backend
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/brand/angrove-app-icon-dark.png">
+    <img src="docs/brand/angrove-app-icon-light.png" alt="Angrove app icon" width="128">
+  </picture>
+</p>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/brand/angrove-logo-light-text.png">
+    <img src="docs/brand/angrove-logo-dark-text.png" alt="Angrove" width="360">
+  </picture>
+</p>
 
-The local FastAPI and MLX development service behind Aquinas.
+# Angrove Backend
 
-Aquinas is a private, local-first study and conversation environment for serious
+The local FastAPI and MLX development service behind Angrove.
+
+Angrove is a private, local-first study and conversation environment for serious
 questions about philosophy, theology, Scripture, meaning, and human flourishing.
 This repository supports the iOS client with model generation, source-grounded
 retrieval, Insight Tree operations, and conversation-scoped persistence.
@@ -28,7 +41,7 @@ the quote-notability check finishes; that best-effort check runs in the backgrou
 changes a completed tree-analysis response.
 
 Read [`CLAUDE.md`](CLAUDE.md) for the current model checkpoint, API contract, and safety rules.
-Read [`Aquinas Foundations — MODEL-INTEGRATION.md`](https://github.com/rbaltodano/Aquinas-Foundations/blob/main/MODEL-INTEGRATION.md)
+Read [`Angrove Foundations — MODEL-INTEGRATION.md`](https://github.com/rbaltodano/Aquinas-Foundations/blob/main/MODEL-INTEGRATION.md)
 before changing a client-facing contract or model behavior.
 
 ## Local setup
@@ -51,8 +64,8 @@ are intentionally excluded from source control.
 
 ## Related repositories
 
-- [Aquinas iOS](https://github.com/rbaltodano/Aquinas-iOS) — SwiftUI client and local-first study experience.
-- [Aquinas Foundations](https://github.com/rbaltodano/Aquinas-Foundations) — shared product, design, and architecture contracts.
+- [Angrove iOS](https://github.com/rbaltodano/Aquinas-iOS) — SwiftUI client and local-first study experience.
+- [Angrove Foundations](https://github.com/rbaltodano/Aquinas-Foundations) — shared product, design, and architecture contracts.
 
 ## Project status
 
@@ -71,7 +84,7 @@ cosine similarity compares those vectors, and centroids represent higher-level
 nodes built from related Insights. The resulting relatedness signals drive
 retrieval, grouping, graph topology, and the visual distances between ideas.
 
-This is one of the central capabilities of Aquinas: the app can help a person
+This is one of the central capabilities of Angrove: the app can help a person
 explore how ideas interact in semantic space, not only generate a response to
 the latest question. The language model proposes and explains concepts, while
 the relatedness provider performs the numeric comparison and graph decisions.

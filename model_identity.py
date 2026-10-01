@@ -1,4 +1,4 @@
-"""Canonical identity for the language model used by the Aquinas backend."""
+"""Canonical identity for the language model used by the Angrove backend."""
 
 import os
 
