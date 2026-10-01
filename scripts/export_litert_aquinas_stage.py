@@ -1,4 +1,4 @@
-"""Run memory- and disk-bounded stages of the Aquinas LiteRT-LM export."""
+"""Run memory- and disk-bounded stages of the Angrove LiteRT-LM export."""
 
 from __future__ import annotations
 

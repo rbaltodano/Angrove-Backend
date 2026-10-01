@@ -1,6 +1,6 @@
 # Aquinas_Backend
 
-FastAPI service exposing the local MLX Aquinas model, MiniLM semantic relatedness, and
+FastAPI service exposing the local MLX Angrove model, MiniLM semantic relatedness, and
 conversation-scoped SQLite persistence to the iOS app.
 
 ## Read first
@@ -45,7 +45,7 @@ source of truth. Read [`INSIGHT-TREE.md`](../Aquinas-Foundations/INSIGHT-TREE.md
 - Runtime prompt assembly in `main.py` is the sole authority for model identity. Tokenizer
   configuration contains no embedded persona or identity prompt, and legacy standalone prompt
   entry points have been removed.
-- The fused Aquinas language weights have also been reconstructed as a canonical Hugging Face
+- The fused Angrove language weights have also been reconstructed as a canonical Hugging Face
   Gemma 4 checkpoint and exported as a multimodal LiteRT-LM package for iOS validation. The local
   artifact is `models/Aquinas-Final-LiteRT/model.litertlm`; it is 2,722,385,120 bytes with SHA-256
   `5cb26c8e29d52ecf3e2b651e590761fe593dddcab0cbcdac7dc0692605ee5569`. Models remain
@@ -146,7 +146,7 @@ and produces a fragment, allowing the client to distinguish queued work from act
 - `DELETE /insight-tree/{conversation_id}/insights/{insight_id}` — removes an Insight, repairs its
   former Node, and records a tombstone when needed.
 
-Do not let Aquinas generate IDs or numeric relatedness. IDs come from application code; MiniLM
+Do not let Angrove generate IDs or numeric relatedness. IDs come from application code; MiniLM
 owns similarity; deterministic application code owns topology and persistence.
 
 ## Running
@@ -161,7 +161,7 @@ uvicorn server:app --reload
 ```
 
 MiniLM is downloaded once by the explicit command and then loaded with `local_files_only=True`.
-Importing `main.py` loads the full Gemma 4 E2B multimodal checkpoint plus the Aquinas adapter, so
+Importing `main.py` loads the full Gemma 4 E2B multimodal checkpoint plus the Angrove adapter, so
 tests that do not need the real model should continue injecting fake generators/providers and
 avoid importing the live server.
 
@@ -187,7 +187,7 @@ aquinas_env/bin/python scripts/evaluate_prompt_quality.py \
 ```
 
 The JSON result retains full outputs and editable 1–5 human rubrics; a readable Markdown report is
-written beside it. Objective checks assert contracts, not exact prose. Never use Aquinas to grade
+written beside it. Objective checks assert contracts, not exact prose. Never use Angrove to grade
 its own philosophical/content quality.
 
 The latency-quality workflow is intentionally non-destructive:

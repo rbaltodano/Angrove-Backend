@@ -1,4 +1,4 @@
-"""Select the fastest reviewed checkpoint that satisfies Aquinas quality gates."""
+"""Select the fastest reviewed checkpoint that satisfies Angrove quality gates."""
 
 from __future__ import annotations
 

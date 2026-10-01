@@ -1,4 +1,4 @@
-"""Export the fused Aquinas Gemma 4 checkpoint to a LiteRT-LM package."""
+"""Export the fused Angrove Gemma 4 checkpoint to a LiteRT-LM package."""
 
 from __future__ import annotations
 

@@ -4,7 +4,7 @@ MiniLM embeds the query with the same provider used for Insight Tree
 relatedness; Chroma returns the nearest passage chunks. This module only
 retrieves passages — it never generates prose or validates claims against
 them. That stays the model's and the prompt's job, matching the project's
-"MiniLM compares meaning, Aquinas writes and explains" split.
+"MiniLM compares meaning, Angrove writes and explains" split.
 """
 
 from __future__ import annotations

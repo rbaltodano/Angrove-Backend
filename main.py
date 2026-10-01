@@ -53,7 +53,7 @@ def _ensure_mlx_stream_ready() -> None:
 
 
 print(
-    f"--- ⏳ 1. Loading Aquinas ({MODEL_DISPLAY_NAME}) from "
+    f"--- ⏳ 1. Loading Angrove ({MODEL_DISPLAY_NAME}) from "
     f"{MODEL_RUNTIME_PATH} with {MODEL_ADAPTER_PATH}... ---"
 )
 start_time = time.time()
@@ -83,7 +83,7 @@ def _assert_no_legacy_tokenizer_identity(loaded_tokenizer) -> None:
     ):
         raise RuntimeError(
             "The tokenizer contains a legacy identity override. "
-            "Aquinas identity must be supplied by the runtime system instruction."
+            "Angrove identity must be supplied by the runtime system instruction."
         )
 
 
@@ -117,7 +117,7 @@ REASONING_CONSTITUTION = (
 )
 
 APPLICATION_TASK_INSTRUCTION = (
-    "You are Aquinas. "
+    "You are Angrove. "
     "Never reveal private reasoning or hidden scratch work. "
     "When an action-specific task is provided, follow its instructions and output format exactly; "
     "the task takes priority over conversational structure. Use neutral, clear editorial language "

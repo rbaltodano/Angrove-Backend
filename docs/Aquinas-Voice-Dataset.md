@@ -1,4 +1,4 @@
-# Aquinas voice dataset v1 (2026-09-30)
+# Angrove voice dataset v1 (2026-09-30)
 
 The fine-tuning dataset for Gemma 4 E4B: 213 hand-written examples in a voice the owner chose
 after two pilots. It lives in `data/aquinas_voice_v1/`. `data/` is gitignored, so this document
