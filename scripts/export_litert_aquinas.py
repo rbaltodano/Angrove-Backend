@@ -16,10 +16,43 @@ from litert_torch.generative.export_hf.core.exportable_module_config import (
 MINIMUM_FREE_BYTES = 40 * 1024**3
 EXPECTED_ARCHITECTURE = "Gemma4ForConditionalGeneration"
 SUPPORTED_QUANTIZATION_RECIPES = (
+    "aquinas_mixed48_b32",
+    "aquinas_mixed48_hr",
+    "aquinas_mixed48_c",
+    "aquinas_mixed48_b64",
     "dynamic_wi4_afp32",
     "dynamic_wi8_emb4_afp32",
     "dynamic_wi8_afp32",
 )
+
+
+def register_mixed_recipes() -> None:
+    """Flatten ai_edge_quantizer's per-component gemma4_mixed48 recipes into single recipes.
+
+    The exporter applies one recipe string to every component, so it can't take the
+    per-component dicts. Each flat recipe quantizes embeddings and fully connected layers to
+    4 bits and keeps the per-layer-embedding projections at 8 bits, which Google's recipe
+    notes they need. Without that, the plain INT4 export scored 24/40 on sealed-1 versus
+    38/40 for Google's package.
+    """
+    from ai_edge_quantizer import recipe as recipe_lib
+    from litert_torch.generative.export_hf.core import export_lib
+
+    names = recipe_lib.TFLOperationName
+
+    def mixed(four_bit):
+        return (
+            four_bit(operation_name=names.EMBEDDING_LOOKUP)
+            + four_bit(operation_name=names.FULLY_CONNECTED)
+            + recipe_lib.dynamic_wi8c_afp32(regex="per_layer", operation_name=names.FULLY_CONNECTED)
+        )
+
+    export_lib._LOCAL_QUANTIZATION_RECIPES.update({
+        "aquinas_mixed48_b32": lambda: mixed(recipe_lib.dynamic_wi4b32_afp32),
+        "aquinas_mixed48_hr": lambda: mixed(recipe_lib.dynamic_wi4c_hr_afp32),
+        "aquinas_mixed48_c": lambda: mixed(recipe_lib.dynamic_wi4c_afp32),
+        "aquinas_mixed48_b64": lambda: mixed(recipe_lib.dynamic_wi4b64_afp32),
+    })
 
 
 def validate_source(source: Path, output: Path) -> None:
@@ -94,11 +127,21 @@ def main() -> None:
             "package."
         ),
     )
+    parser.add_argument(
+        "--chat-template",
+        type=Path,
+        help=(
+            "Jinja chat template to bundle. LiteRT-LM's template engine rejects the Hugging "
+            "Face Gemma 4 template (it calls dict.get), so pass the template extracted from "
+            "Google's stock .litertlm package."
+        ),
+    )
     args = parser.parse_args()
 
     source = args.source.resolve()
     output = args.output.resolve()
     validate_source(source, output)
+    register_mixed_recipes()
 
     export_kwargs = dict(
         model=str(source),
@@ -108,7 +151,7 @@ def main() -> None:
         quantization_recipe=args.quantization_recipe,
         externalize_embedder=True,
         use_jinja_template=True,
-        jinja_chat_template_override=str(source / "chat_template.jinja"),
+        jinja_chat_template_override=str(args.chat_template or source / "chat_template.jinja"),
         bundle_litert_lm=True,
         experimental_lightweight_conversion=True,
     )

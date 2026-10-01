@@ -84,3 +84,44 @@ anything ships.
 Tooling fixes found on the pod: install PyTorch built for CUDA 12.8 (`torch 2.11.0+cu128`) when the
 driver reports CUDA 12.8; `apply_chat_template(..., return_dict=True)` for generation in
 transformers 5.x.
+
+## Self-distillation, "learned friend" voice — 2026-10-01
+
+Data came from the model itself, so it can't teach new facts. `scripts/voice_distill/`:
+
+- `distill_generate.py --voice friend_d --answer-temp 0.6`: stock E4B wrote 2,787 seed questions
+  (Summa, grounded passages and Scripture, open topics, short factual) and about 320 follow-ups,
+  answering under the friend-voice prompt (`templates.json`, `friend_d`).
+- `filter_generated.py` kept 2,494 of 3,078 (train 2,372, valid 122). It unwraps italics, keeps
+  one `{{marker}}` per term, rejects praise of the question, caps each stock phrase at 6% of
+  answers, and varies the "it is so beautiful how…" aside (stock E4B used "beautiful" in 65% of
+  answers).
+- LoRA r16, 2 epochs, lr 5e-5 under the app's short Scholarly prompt: valid loss 0.99 → 0.564.
+  Adapter: `models/aquinas-e4b-friend-v1-adapter/` (local).
+
+The tuned model speaks in the friend voice under the short prompt, with varied asides. Its
+accuracy matches stock at full precision. **Quantization is the blocker.** Sealed-1, 40 cases,
+objective v2, app pipeline with retrieval:
+
+| Package | Size | Simulator (CPU) | Phone GPU (F32), median answer |
+| --- | --- | --- | --- |
+| Google stock E4B (QAT) + Athanasius prompt | 3.66 GB | 38 | 38, 18 s |
+| Google stock E4B + friend prompt | 3.66 GB | 38 ("beautiful" in 25/40) | — |
+| Stock E4B, our `dynamic_wi4_afp32` export | 4.29 GB | 24 | — |
+| Tuned, `dynamic_wi4_afp32` | 4.29 GB | 23 (repetition, truncation) | — |
+| Tuned, `dynamic_wi8_emb4_afp32` | 6.6 GB | **39** | too large |
+| Tuned, `aquinas_mixed48_hr` | 4.42 GB | 36 | 36, **57 s** |
+| Tuned, `aquinas_mixed48_b32` | 4.80 GB | 37 | jetsam |
+| Tuned, `aquinas_mixed48_c` | 4.33 GB | — | 32, 30 s (factual errors) |
+| Tuned, `aquinas_mixed48_b64` | 4.55 GB | — | 37, **68 s**, 13 jetsam events |
+
+The `aquinas_mixed48_*` recipes flatten ai_edge_quantizer's `gemma4_mixed48*` (4-bit weights,
+8-bit per-layer-embedding projections) into one recipe, because the exporter can't take
+per-component recipes. Export also needs `--chat-template` with Google's template: LiteRT-LM
+rejects the Hugging Face template (`dict.get`).
+
+**Conclusion:** no post-training quantization of the tune is both accurate and phone-ready. Google's
+package keeps quality at 3.66 GB through QAT (INT2 embeddings, INT4 decoder). Next attempt: train
+the LoRA on `google/gemma-4-E4B-it-qat-q4_0-unquantized` and quantize with a recipe matching the
+mobile QAT layout (`gemma-4-E4B-it-qat-mobile-transformers` config: 2-bit embeddings and lm_head,
+4-bit attention/MLP, 8-bit per-layer gates and projections).

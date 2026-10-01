@@ -5,20 +5,21 @@ import argparse, json, random, re, pathlib, torch
 from transformers import AutoModelForImageTextToText, AutoTokenizer
 ap = argparse.ArgumentParser(); ap.add_argument("--model", required=True); ap.add_argument("--dir", required=True)
 ap.add_argument("--batch", type=int, default=24); ap.add_argument("--limit", type=int, default=0)
+ap.add_argument("--voice", default="voice"); ap.add_argument("--answer-temp", type=float, default=0.0)
 a = ap.parse_args(); D = pathlib.Path(a.dir)
 tok = AutoTokenizer.from_pretrained(a.model); tok.padding_side = "left"
 m = AutoModelForImageTextToText.from_pretrained(a.model, dtype=torch.bfloat16).to("cuda").eval()
 T = json.load(open(D / "templates.json"))
 PRON = {"that","this","these","those","it","its","they","them","their","he","him","his","she","her"}
 
-def generate(convs, max_new, sample):
+def generate(convs, max_new, sample, temp=0.8):
     outs = []
     for i in range(0, len(convs), a.batch):
         chunk = convs[i:i + a.batch]
         texts = [tok.apply_chat_template(c, tokenize=False, add_generation_prompt=True) for c in chunk]
         enc = tok(texts, return_tensors="pt", padding=True, add_special_tokens=False).to("cuda")
         with torch.no_grad():
-            g = m.generate(**enc, max_new_tokens=max_new, do_sample=sample, temperature=0.8 if sample else None, top_p=0.95 if sample else None)
+            g = m.generate(**enc, max_new_tokens=max_new, do_sample=sample, temperature=temp if sample else None, top_p=0.95 if sample else None)
         outs += [tok.decode(x[enc["input_ids"].shape[1]:], skip_special_tokens=True).strip() for x in g]
         print(f"  {min(i + a.batch, len(convs))}/{len(convs)}", flush=True)
     return outs
@@ -36,7 +37,8 @@ for s, q in zip(seeds, qs):
     if q.endswith("?") and 12 <= len(q) <= 220: s["question"] = q; keep.append(s)
 print("questions kept", len(keep), "of", len(seeds), flush=True)
 # Stage 2: answers
-ans = generate([[{"role": "system", "content": s["system_voice"]}, {"role": "user", "content": user_turn(s["question"])}] for s in keep], 450, False)
+VOICE = T[a.voice]
+ans = generate([[{"role": "system", "content": s["system_train"].replace(T["scholarly"], VOICE)}, {"role": "user", "content": user_turn(s["question"])}] for s in keep], 450, a.answer_temp > 0, a.answer_temp)
 rows = []
 for s, x in zip(keep, ans):
     rows.append({"id": s["id"], "kind": s["kind"], "references": s["references"], "system_train": s["system_train"],
@@ -54,9 +56,9 @@ for r, q in zip(base, fq):
     if set(re.findall(r"[a-z]+", q.lower())) & PRON:
         note = f"\nThis question continues the conversation. The previous question was: “{r['question']}” Read a pronoun in the new question as pointing to what that question asked about.\n"
     fu.append((r, q, note))
-fa = generate([[{"role": "system", "content": r["system_train"].replace(T["scholarly"], T["voice"])},
+fa = generate([[{"role": "system", "content": r["system_train"].replace(T["scholarly"], VOICE)},
                 {"role": "user", "content": r["question"]}, {"role": "assistant", "content": r["answer"]},
-                {"role": "user", "content": user_turn(q, note)}] for r, q, note in fu], 450, False)
+                {"role": "user", "content": user_turn(q, note)}] for r, q, note in fu], 450, a.answer_temp > 0, a.answer_temp)
 for (r, q, note), x in zip(fu, fa):
     rows.append({"id": r["id"] + "-f", "kind": "followup", "references": [], "system_train": r["system_train"],
                  "history": [{"role": "user", "content": r["question"]}, {"role": "assistant", "content": r["answer"]}],
