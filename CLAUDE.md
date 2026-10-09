@@ -1,7 +1,12 @@
-# Aquinas_Backend
+# Angrove Backend (`Aquinas_Backend`)
 
-FastAPI service exposing the local MLX Angrove model, MiniLM semantic relatedness, and
-conversation-scoped SQLite persistence to the iOS app.
+Offline tooling for Angrove: corpus ingestion, on-device asset export (grounding corpus, MiniLM
+Core ML, LiteRT-LM packages), fine-tuning and quantization research, and evaluation.
+
+**Current role.** The app has run entirely on device since September 26, 2026, when its HTTP
+client for this service was removed. The FastAPI/MLX service described below is the Python
+reference implementation and evaluation harness, not a dependency of the app. Do not reintroduce
+a network path into the app.
 
 ## Read first
 

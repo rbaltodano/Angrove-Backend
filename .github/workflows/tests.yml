@@ -1,0 +1,47 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Unit tests
+    # MLX only installs on Apple silicon, so tests run on an arm64 macOS runner.
+    runs-on: macos-15
+    timeout-minutes: 30
+    env:
+      HF_HOME: ${{ github.workspace }}/.cache/huggingface
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+
+      - name: Cache Hugging Face models
+        uses: actions/cache@v4
+        with:
+          path: .cache/huggingface
+          key: huggingface-${{ runner.os }}-all-MiniLM-L6-v2
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # The service loads MiniLM with local_files_only=True so it never reaches the network at
+      # runtime; prefetch it into the cache so the tests can load it the same way.
+      - name: Prefetch MiniLM embedding model
+        run: python -c "from huggingface_hub import snapshot_download; snapshot_download('sentence-transformers/all-MiniLM-L6-v2')"
+
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Validate prompt-quality contracts
+        run: python scripts/evaluate_prompt_quality.py --validate-only
