@@ -13,8 +13,15 @@ from model_identity import (
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+LOCAL_CHECKPOINT_AVAILABLE = (REPOSITORY_ROOT / MODEL_PATH).is_dir() and (
+    REPOSITORY_ROOT / MODEL_ADAPTER_PATH
+).is_dir()
 
 
+@unittest.skipUnless(
+    LOCAL_CHECKPOINT_AVAILABLE,
+    "local model checkpoint is not checked out (models/ is excluded from source control)",
+)
 class ModelIdentityTests(unittest.TestCase):
     def test_checkpoint_and_adapter_identify_the_canonical_base_model(self):
         checkpoint_root = REPOSITORY_ROOT / MODEL_PATH
