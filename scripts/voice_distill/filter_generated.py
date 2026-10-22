@@ -3,7 +3,7 @@ rejected.jsonl (with reasons). A locator (question, article, part, chapter, book
 when it appears in that example's own reference passages."""
 import json, re, sys, random, hashlib, pathlib, collections
 HERE = pathlib.Path(__file__).parent
-sys.path.insert(0, str(pathlib.Path.home() / "Developer/Aquinas_Backend/data/aquinas_voice_v1"))
+sys.path.insert(0, str(pathlib.Path.home() / "Developer/Angrove-Backend/data/aquinas_voice_v1"))
 sys.argv = sys.argv[:1]
 import check_overlap as co
 T = json.load(open(HERE / "templates.json"))

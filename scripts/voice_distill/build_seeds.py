@@ -2,7 +2,7 @@
 Each seed asks the stock model to write one natural user question; answers are generated later
 under the app's prompt. Seeds touching any evaluation question or sealed-2 topic are dropped."""
 import json, random, re, sys, pathlib
-sys.path.insert(0, str(pathlib.Path.home() / "Developer/Aquinas_Backend/data/aquinas_voice_v1"))
+sys.path.insert(0, str(pathlib.Path.home() / "Developer/Angrove-Backend/data/aquinas_voice_v1"))
 from summa_evidence import article_reference, S, STARTS, clean, _ps
 import check_overlap as co   # reuses the eval sets and the sealed-2 topic list
 random.seed(20260930)
