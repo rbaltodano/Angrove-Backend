@@ -236,7 +236,7 @@ def render_markdown_report(payload: dict[str, Any]) -> str:
     summary = payload.get("summary") or summarize_records(records)
     metadata = payload.get("metadata", {})
     lines = [
-        "# Aquinas Prompt Quality Report",
+        "# Angrove Prompt Quality Report",
         "",
         f"- Model: `{metadata.get('model_path', 'unknown')}`",
         f"- Generated: `{metadata.get('generated_at', 'unknown')}`",

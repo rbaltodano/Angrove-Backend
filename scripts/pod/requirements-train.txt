@@ -1,0 +1,8 @@
+torch==2.13.0
+torchvision==0.28.0
+transformers==5.14.1
+peft==0.21.1
+accelerate
+safetensors
+huggingface_hub
+sentencepiece

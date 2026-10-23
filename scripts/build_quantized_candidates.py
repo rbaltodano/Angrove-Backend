@@ -1,4 +1,4 @@
-"""Build non-destructive 6-bit and 4-bit copies of the Aquinas checkpoint."""
+"""Build non-destructive 6-bit and 4-bit copies of the Angrove checkpoint."""
 
 from __future__ import annotations
 

@@ -9,7 +9,7 @@ from uuid import uuid4
 from relatedness import Embedding, MiniLMRelatednessProvider, relatedness_provider
 
 
-# Placeholder until calibrated against real Aquinas conversations.
+# Placeholder until calibrated against real Angrove conversations.
 DEFAULT_MEMBERSHIP_THRESHOLD = 0.40
 
 

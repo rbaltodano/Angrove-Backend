@@ -1,4 +1,4 @@
-"""Validated structured tasks performed by the Aquinas language model."""
+"""Validated structured tasks performed by the Angrove language model."""
 
 from __future__ import annotations
 
@@ -1258,7 +1258,7 @@ Retrieved passages:
         else:
             grounding_instruction = ""
         interface_help_instruction = """
-When the user asks what an Aquinas interface control means, answer from this application glossary.
+When the user asks what an Angrove interface control means, answer from this application glossary.
 Do not mention these controls unless the user asks about them.
 - Inquire: analyzes the strongest meaningful relationship among the Insights or Node Concepts
   selected from the Tree.

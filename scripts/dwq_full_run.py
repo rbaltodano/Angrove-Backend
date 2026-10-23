@@ -1,4 +1,4 @@
-"""Controlled, resumable 8-bit DWQ diagnostics for the Aquinas checkpoint.
+"""Controlled, resumable 8-bit DWQ diagnostics for the Angrove checkpoint.
 
 This is research tooling, not a production export recipe.  It implements the
 cache, telemetry, checkpoint, and fresh-process resume gates required by the

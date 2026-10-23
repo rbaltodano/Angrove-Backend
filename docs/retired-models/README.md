@@ -1,6 +1,6 @@
 # Retired E2B model artifacts (2026-09-29)
 
-The iOS app now ships Google's Gemma 4 E4B LiteRT-LM package (Aquinas-iOS PR #8). The Aquinas
+The iOS app now ships Google's Gemma 4 E4B LiteRT-LM package (Aquinas-iOS PR #8). The Angrove
 fine-tune of Gemma 4 **E2B** is retired, and its large local weights were deleted to free disk.
 This folder keeps each artifact's small metadata, so the record and the rebuild path survive.
 

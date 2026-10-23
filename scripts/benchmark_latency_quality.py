@@ -1,4 +1,4 @@
-"""Run the reviewed latency/quality set against one Aquinas checkpoint."""
+"""Run the reviewed latency/quality set against one Angrove checkpoint."""
 
 from __future__ import annotations
 

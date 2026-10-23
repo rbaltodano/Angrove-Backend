@@ -1,6 +1,6 @@
 """Semantic relatedness for the Insight Tree.
 
-MiniLM owns numeric semantic comparison. The Aquinas language model owns
+MiniLM owns numeric semantic comparison. The Angrove language model owns
 user-facing generation such as definitions, labels, and blended insights.
 """
 

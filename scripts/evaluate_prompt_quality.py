@@ -1,4 +1,4 @@
-"""Run end-to-end Aquinas prompt-quality cases and write JSON/Markdown reports."""
+"""Run end-to-end Angrove prompt-quality cases and write JSON/Markdown reports."""
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""Corpus ingestion for Aquinas grounding retrieval.
+"""Corpus ingestion for Angrove grounding retrieval.
 
 Reads corpus/sources.yaml, fetches confirmed-public-domain sources, cleans
 and chunks them, embeds each chunk with the same MiniLM provider used for

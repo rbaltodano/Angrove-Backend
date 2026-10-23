@@ -1,4 +1,4 @@
-"""LoRA fine-tune of Gemma 4 E4B on the Aquinas voice dataset, then merge for LiteRT export.
+"""LoRA fine-tune of Gemma 4 E4B on the Angrove voice dataset, then merge for LiteRT export.
 
 Run on a GPU pod (validated target: 1x A100 80 GB, 2026-09-30):
   python train_voice_lora.py --base /root/models/gemma-4-E4B-it-base \

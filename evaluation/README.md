@@ -1,4 +1,4 @@
-# Aquinas evaluation workflows
+# Angrove evaluation workflows
 
 The backend has two complementary evaluation paths:
 
@@ -64,7 +64,7 @@ python scripts/evaluate_prompt_quality.py \
 
 The suite passes only when every generation completes, every objective check passes, every rubric
 is scored at least 3, and no case is marked as a critical failure. Do not use the generating
-Aquinas checkpoint to grade its own substantive quality.
+Angrove checkpoint to grade its own substantive quality.
 
 ## Case-authoring rules
 

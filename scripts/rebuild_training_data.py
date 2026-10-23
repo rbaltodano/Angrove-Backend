@@ -1,4 +1,4 @@
-"""Rebuilds the Aquinas fine-tuning dataset from the raw Summa Theologica text.
+"""Rebuilds the Angrove fine-tuning dataset from the raw Summa Theologica text.
 
 Supersedes the old finalize_training_data.py + convert_gemma.py pipeline, which
 produced a corrupted dataset: the raw source is a PDF-to-text extraction that
