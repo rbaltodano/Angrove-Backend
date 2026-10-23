@@ -16,10 +16,97 @@ from litert_torch.generative.export_hf.core.exportable_module_config import (
 MINIMUM_FREE_BYTES = 40 * 1024**3
 EXPECTED_ARCHITECTURE = "Gemma4ForConditionalGeneration"
 SUPPORTED_QUANTIZATION_RECIPES = (
+    "aquinas_mixed48_b32",
+    "aquinas_mixed48_hr",
+    "aquinas_mixed48_c",
+    "aquinas_mixed48_b64",
+    "aquinas_qat_mobile",
     "dynamic_wi4_afp32",
     "dynamic_wi8_emb4_afp32",
     "dynamic_wi8_afp32",
 )
+
+
+# Tensor-name pattern for the output projection in the exported decoder; confirm with
+# scripts/inspect_litert_tensors.py after an export.
+LM_HEAD_REGEX = "lm_head"
+
+
+def use_full_range_low_bit_scales() -> None:
+    """Make symmetric 2- and 4-bit scales cover the full signed range.
+
+    ai_edge_quantizer sets scale = max|w| / qmax, so int4 uses -7..7 and int2 uses only -1..1
+    even though -8 and -2 are representable. Google's QAT weights use the full grids (int4
+    -8..7, int2 -2..1), so that scale moves every value off its trained level and the model
+    falls apart (sealed-1 2/40). Applies to channelwise and blockwise scales. With scale = max(max / qmax, min / qmin) the QAT values land
+    exactly on the grid; ordinary weights still stay in range.
+    """
+    import ml_dtypes
+    import numpy as np
+    from ai_edge_quantizer.algorithms.uniform_quantize import uniform_quantize_tensor as uqt
+
+    original = uqt.tensor_zp_scale_from_min_max
+
+    def full_range(min_value, max_value, num_bits, symmetric, granularity, clipping_values=None):
+        if not symmetric or num_bits >= 8 or clipping_values is not None:
+            return original(min_value, max_value, num_bits, symmetric, granularity, clipping_values)
+        qtype = uqt.IntType(num_bits, signed=True)
+        qmin, qmax = uqt.get_quantized_range(qtype)
+        scale = np.maximum(np.maximum(max_value / qmax, min_value / qmin), 1e-9).astype(np.float32)
+        if uqt.is_blockwise(granularity):
+            # Blockwise scales are stored with a 7-bit mantissa, as in the original.
+            scale = scale.astype(ml_dtypes.bfloat16).astype(np.float16).astype(np.float32)
+        return uqt.assign_quantized_type(np.zeros_like(scale, dtype=np.int32), qtype), scale
+
+    uqt.tensor_zp_scale_from_min_max = full_range
+
+
+def register_mixed_recipes() -> None:
+    """Flatten ai_edge_quantizer's per-component gemma4_mixed48 recipes into single recipes.
+
+    The exporter applies one recipe string to every component, so it can't take the
+    per-component dicts. Each flat recipe quantizes embeddings and fully connected layers to
+    4 bits and keeps the per-layer-embedding projections at 8 bits, which Google's recipe
+    notes they need. Without that, the plain INT4 export scored 24/40 on sealed-1 versus
+    38/40 for Google's package.
+    """
+    from ai_edge_quantizer import recipe as recipe_lib
+    from litert_torch.generative.export_hf.core import export_lib
+
+    names = recipe_lib.TFLOperationName
+
+    def mixed(four_bit):
+        return (
+            four_bit(operation_name=names.EMBEDDING_LOOKUP)
+            + four_bit(operation_name=names.FULLY_CONNECTED)
+            + recipe_lib.dynamic_wi8c_afp32(regex="per_layer", operation_name=names.FULLY_CONNECTED)
+        )
+
+    def blockwise_int2_embeddings():
+        # 2-bit embeddings with 256-wide blocks, so the per-layer table keeps one scale per layer
+        # slice per row as the QAT checkpoint does. The default policy only lists channelwise
+        # 2-bit for EMBEDDING_LOOKUP, so this entry skips the policy check.
+        entries = recipe_lib.dynamic_wi2c_afp32(operation_name=names.EMBEDDING_LOOKUP)
+        for entry in entries:
+            entry["op_config"]["weight_tensor_config"]["granularity"] = recipe_lib.QuantGranularity.BLOCKWISE_256
+            entry["op_config"]["skip_checks"] = True
+        return entries
+
+    export_lib._LOCAL_QUANTIZATION_RECIPES.update({
+        "aquinas_mixed48_b32": lambda: mixed(recipe_lib.dynamic_wi4b32_afp32),
+        "aquinas_mixed48_hr": lambda: mixed(recipe_lib.dynamic_wi4c_hr_afp32),
+        "aquinas_mixed48_c": lambda: mixed(recipe_lib.dynamic_wi4c_afp32),
+        "aquinas_mixed48_b64": lambda: mixed(recipe_lib.dynamic_wi4b64_afp32),
+        # Google's mobile QAT layout (gemma-4-E4B-it-qat-mobile-transformers config): 2-bit
+        # embeddings and output head, 4-bit channelwise decoder, 8-bit per-layer gates and
+        # projections. Only accurate on QAT weights, which already sit on these grids.
+        "aquinas_qat_mobile": lambda: (
+            blockwise_int2_embeddings()
+            + recipe_lib.dynamic_wi4c_afp32(operation_name=names.FULLY_CONNECTED)
+            + recipe_lib.dynamic_wi8c_afp32(regex="per_layer", operation_name=names.FULLY_CONNECTED)
+            + recipe_lib.dynamic_wi2c_afp32(regex=LM_HEAD_REGEX, operation_name=names.FULLY_CONNECTED)
+        ),
+    })
 
 
 def validate_source(source: Path, output: Path) -> None:
@@ -94,11 +181,23 @@ def main() -> None:
             "package."
         ),
     )
+    parser.add_argument(
+        "--chat-template",
+        type=Path,
+        help=(
+            "Jinja chat template to bundle. LiteRT-LM's template engine rejects the Hugging "
+            "Face Gemma 4 template (it calls dict.get), so pass the template extracted from "
+            "Google's stock .litertlm package."
+        ),
+    )
     args = parser.parse_args()
 
     source = args.source.resolve()
     output = args.output.resolve()
     validate_source(source, output)
+    register_mixed_recipes()
+    if args.quantization_recipe == "aquinas_qat_mobile":
+        use_full_range_low_bit_scales()
 
     export_kwargs = dict(
         model=str(source),
@@ -108,7 +207,7 @@ def main() -> None:
         quantization_recipe=args.quantization_recipe,
         externalize_embedder=True,
         use_jinja_template=True,
-        jinja_chat_template_override=str(source / "chat_template.jinja"),
+        jinja_chat_template_override=str(args.chat_template or source / "chat_template.jinja"),
         bundle_litert_lm=True,
         experimental_lightweight_conversion=True,
     )

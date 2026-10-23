@@ -9,7 +9,7 @@ recent version coremltools 9.0 is actually tested against -- the main
 aquinas_env's torch 2.13 fails to load coremltools' native prediction proxy
 at all, which would make on-Mac verification impossible):
 
-    Aquinas_Backend/coreml_conversion_env/bin/python3 scripts/export_minilm_coreml.py
+    Angrove-Backend/coreml_conversion_env/bin/python3 scripts/export_minilm_coreml.py
 """
 
 from pathlib import Path

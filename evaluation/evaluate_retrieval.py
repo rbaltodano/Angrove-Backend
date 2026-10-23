@@ -35,12 +35,12 @@ IOS_ROOT = next(
     (
         checkout
         for checkout in (
-            BACKEND_ROOT.parent / "Aquinas-iOS-main",
+            BACKEND_ROOT.parent / "Angrove-iOS-main",
             BACKEND_ROOT.parent / "Aquinas-iOS",
         )
         if checkout.is_dir()
     ),
-    BACKEND_ROOT.parent / "Aquinas-iOS-main",
+    BACKEND_ROOT.parent / "Angrove-iOS-main",
 )
 GROUNDING_DIR = IOS_ROOT / "Aquinas-iOS" / "LocalGrounding"
 SWIFT_CITATION = IOS_ROOT / "Aquinas-iOS" / "Services" / "ScriptureCitation.swift"
