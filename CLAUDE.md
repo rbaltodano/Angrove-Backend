@@ -8,6 +8,13 @@ client for this service was removed. The FastAPI/MLX service described below is 
 reference implementation and evaluation harness, not a dependency of the app. Do not reintroduce
 a network path into the app.
 
+## Working principles
+
+- Make the best decision that will elevate all three: the user experience (UX), developer
+  experience (DX), and agent experience (AX) always, without breaking anything.
+- Cut taglines, helper text and secondary labels. If a screen needs them to make sense, fix the
+  layout.
+
 ## Read first
 
 Before changing generation, embeddings, API contracts, or Insight Tree behavior, read
